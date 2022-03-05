@@ -1,5 +1,3 @@
-module SupportFunctions
-
 """
     row_mul(v::AbstractArray, A::AbstractMatrix)
 Multiply all the rows of a matrix `A` by some vector `v` element by element.
@@ -47,8 +45,5 @@ function rand_exclusive(v::AbstractArray,n::Integer)
     return a
 end
 
-
-
-end
 
 

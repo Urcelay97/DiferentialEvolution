@@ -1,5 +1,3 @@
-module PopulationFunctions
-
 """
     initial_population(individues::Integer, lower_limits::AbstractArray, upper_limits::AbstractArray)
 Return a `m*n` matrix which `m` is the number of `individues` and `n` the number of parameters. Each individue (row) has `n` parameters
@@ -22,8 +20,6 @@ function initial_population(individues::Integer, lower_limits::AbstractArray, up
         throw(ErrorException("The limits must have the same length: lower and upper limits of length $(length(lower_limits)) and $(length(upper_limits))."))
     end
 
-    return SupportFunctions.row_mul( (upper_limits .- lower_limits), rand(individues,length(lower_limits)) ) .+ lower_limits'
+    return row_mul( (upper_limits .- lower_limits), rand(individues,length(lower_limits)) ) .+ lower_limits'
     
-end
-
 end
