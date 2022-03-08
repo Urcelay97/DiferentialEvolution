@@ -44,6 +44,3 @@ function rand_exclusive(v::AbstractArray,n::Integer)
     end
     return a
 end
-
-
-
