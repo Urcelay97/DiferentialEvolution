@@ -23,7 +23,7 @@ end
 
 """
     rand_exclusive(v::AbstractArray,n::Integer)
-Returns an array with `n` random different elements of the array `v`.
+Returns an array with `n` different random elements of the array `v`.
 """
 function rand_exclusive(v::AbstractArray,n::Integer)
     
