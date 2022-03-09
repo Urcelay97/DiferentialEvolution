@@ -70,6 +70,7 @@ function mutation_classic(A::AbstractMatrix, lower_limits::AbstractArray, upper_
     @simd for individue in 1:population_size
         
         #Obtaining 3 differents individues without taking into account the current individue
+
         rnd_individues = rand_exclusive(deleteat!(collect(1:population_size),individue),3)       
         
         @simd for parameter in 1:number_of_parameters
