@@ -3,8 +3,9 @@ module DiferentialEvolution
 #PopulationFunctions
 export initial_population
 #MutationFunctions
-export dither_mutation
-
+export mutation_classic
+#CrossoverFunctions
+export crossover_classic
 
 include("SupportFunctions.jl")
 include("PopulationFunctions.jl")
