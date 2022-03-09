@@ -1,7 +1,7 @@
 """
-    dither_mutation(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
+    mutation:classic(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
 Given a matrix `A` with `lower_limits` and `upper_limits` arrays, crates a new mutated
-matrix with a sacale factor `F`.
+matrix with a constant sacale factor `F`.
 
 # Parameters
 **`A::AbstractMatrix`**:
@@ -39,7 +39,7 @@ julia> A = 5 .*rand(5,3)
 ```
 `A` is a matrix with minimun and maximum possible values equal to 0 and 5 respectively.
 ```julia-repl
-julia> dither_mutation(A,[1,1,1],[5,5,5],1.3)
+julia> mutation_classic(A,[0,0,0],[5,5,5],1.3)
 5×3 Matrix{Float64}:
  3.49753  2.99707  1.3635
  7.51826  3.87943  3.53243
@@ -48,7 +48,7 @@ julia> dither_mutation(A,[1,1,1],[5,5,5],1.3)
  3.89918  3.86246  1.69276
 ```
 """
-function dither_mutation(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
+function mutation_classic(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
     
     #Error checks
     if length(lower_limits) != length(upper_limits)
