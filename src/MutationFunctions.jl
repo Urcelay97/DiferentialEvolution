@@ -75,10 +75,8 @@ end
 
 """
     mutation_jither(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
-Similar to **`mutation_classic`**. Given a population matrix `A`, all parameters of each individue with
-a random scale factor between **`(0,F]`**. Each random scale factor is diferent for each individue and for
-each parameter.
-
+Similar to **`mutation_classic`**. Given a population matrix `A`, perform the mutation with a random scale factor
+between (0,1]. Each scale factor is diferent for each parameter.
 """
 function mutation_jither(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
 
@@ -101,6 +99,34 @@ function mutation_jither(A::AbstractMatrix, lower_limits::AbstractArray, upper_l
     end
 
     return mutated
+end
 
 
+
+"""
+    mutation_jither(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
+Similar to **`mutation_classic`**. Given a population matrix `A`, perforn the mutation with a random scale factor
+in the interval (0,F). Each scale factor is diferent for each individue but the same for all parameters.
+"""
+function mutation_dither(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
+
+    mutated = similar(A)
+    population_size = size(A,1)
+    number_of_parameters = size(A,2)
+
+    @simd for individue in 1:population_size
+        
+        #Obtaining 3 differents individues without taking into account the current individue
+
+        rnd_individues = rand_exclusive(deleteat!(collect(1:population_size),individue),3)       
+        rnd = rand()
+        @simd for parameter in 1:number_of_parameters
+            @inbounds mutated[individue,parameter] = A[rnd_individues[1],parameter] + rnd*F*(A[rnd_individues[2],parameter]-A[rnd_individues[3],parameter])
+            if (mutated[individue,parameter] < lower_limits[parameter]) | (mutated[individue,parameter] > upper_limits[parameter])
+                @inbounds mutated[individue,parameter] = (upper_limits[parameter] - lower_limits[parameter])*rand() + lower_limits[parameter]
+            end            
+        end
+    end
+
+    return mutated
 end
