@@ -44,3 +44,8 @@ function rand_exclusive(v::AbstractArray,n::Integer)
     end
     return a
 end
+
+function best_individue(fob::Function,A::AbstractMatrix)
+    vals = findmin(@inbounds [fob(A[i,:]...) for i in 1:size(A,1)]) 
+    return (vals[1],A[vals[2],:])
+end
