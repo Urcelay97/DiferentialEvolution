@@ -1,10 +1,15 @@
 include("testfunctions.jl")
 using DiferentialEvolution
 using Test
-MichalewiczT = DE_classic(Michalewicz,1000,300, [0,0,0,0,0], [pi,pi,pi,pi,pi],0.9,0.5)
+
 @testset "DiferentialEvolution.jl" begin
 
     @testset "Classic Diferential Evolution" begin
+
+        @testset "2-Dimensioanl tests" begin
+
+        end
+
 
         @testset "5-Dimensional tests" begin
 
@@ -26,10 +31,7 @@ MichalewiczT = DE_classic(Michalewicz,1000,300, [0,0,0,0,0], [pi,pi,pi,pi,pi],0.
             #Rosenbrock critic value = 0   ///  parameters = [1,1,1,1,1]
             @test isapprox(MichalewiczT[1],-4.687658, atol=1e-6)
         end
-        # 2-Dimensional tests
-
-        @testset "2-Dimensioanl tests" begin
-        end
+        
     end
 
     @testset "Dither Diferential Evolution" begin
