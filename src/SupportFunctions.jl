@@ -49,3 +49,27 @@ function best_individue(fob::Function,A::AbstractMatrix)
     vals = findmin(@inbounds [fob(A[i,:]...) for i in 1:size(A,1)]) 
     return (vals[1],A[vals[2],:])
 end
+
+"""
+    rand_cauchy_trunc(μ::Real, c::Real)
+Returns a random number with a Cauchy's distribution with **mean `μ`** and truncated between (0,1]. If the value calculated exceds 1, the returned value is 1.
+If the value is less or equal to zero, the value es calculated again.
+"""
+function rand_cauchy_trunc(μ::Real, c::Real)
+    r = c*tan(pi*(rand()-0.5)) + μ
+    if r > 1
+        return 1
+    elseif r <= 0
+        return rand_cauchy_trunc(μ::Real, c::Real)
+    end
+    return r
+end
+
+"""
+    Lehmer_mean(X::AbstractArray,p::Real)
+Return the **Lehmer mean** of degree `p` of an array `X`.
+"""
+function Lehmer_mean(X::AbstractArray,p::Real)
+    return sum(X.^p)/sum(X.^(p-1))
+end
+

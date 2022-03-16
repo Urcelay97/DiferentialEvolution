@@ -1,5 +1,7 @@
 module DiferentialEvolution
 
+using Random
+
 export DE_classic
 export DE_jither
 export DE_dither
@@ -13,7 +15,7 @@ include("SelectionFunctions.jl")
 ### Classic Diferential Evolution ###
 """
     classic_DE(fob::Function,generations::Integer,individues::Integer, lower_limits::AbstractArray, upper_limits::AbstractArray,F::Real,Cr::Real)
-
+Also known as **DE/rand/1/bin** is the simplest differential evolution algorithm. It has a constant value of **F** and **Cr**.
 """
 function DE_classic(fob::Function,generations::Integer,individues::Integer, lower_limits::AbstractArray, upper_limits::AbstractArray,F::Real,Cr::Real)
     #Error checks
@@ -51,7 +53,6 @@ function DE_classic(fob::Function,generations::Integer,individues::Integer, lowe
 
     return best_individue(fob,selected)
 end  
-
 
 ### Jither Diferential Evolution ###
 """
@@ -94,7 +95,9 @@ function DE_jither(fob::Function,generations::Integer,individues::Integer, lower
     return best_individue(fob,selected)
 end
 
-
+"""
+DE_dither(fob::Function,generations::Integer,individues::Integer, lower_limits::AbstractArray, upper_limits::AbstractArray,F::Real,Cr::Real)
+"""
 function DE_dither(fob::Function,generations::Integer,individues::Integer, lower_limits::AbstractArray, upper_limits::AbstractArray,F::Real,Cr::Real)
     #Error checks
 
