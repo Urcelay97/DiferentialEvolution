@@ -2,7 +2,6 @@ include("testfunctions.jl")
 using DiferentialEvolution
 using PlotlyJS
 
-
 #Plots
 len=1000
 x = LinRange(0,pi,len)
