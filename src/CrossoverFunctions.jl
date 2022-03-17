@@ -74,8 +74,8 @@ function crossover_classic(population::AbstractMatrix,mutated::AbstractMatrix,Cr
     population_size = size(population,1)
     number_of_parameters = size(population,2)
     
-    @simd for individue in 1:population_size
-        @simd for parameter in 1:number_of_parameters
+    for individue in 1:population_size
+        for parameter in 1:number_of_parameters
             if (rand() <= Cr) | (rand(1:number_of_parameters) == parameter)
                 @inbounds crossed[individue,parameter] = mutated[individue,parameter]
             else
@@ -86,3 +86,29 @@ function crossover_classic(population::AbstractMatrix,mutated::AbstractMatrix,Cr
 
     return crossed
 end
+
+"""
+    crossover_JADE(population::AbstractMatrix,mutated::AbstractMatrix,μ_Cr::Real)
+
+"""
+function crossover_JADE(population::AbstractMatrix,mutated::AbstractMatrix,μ_Cr=0.5)
+    
+    crossed = similar(population)
+    population_size = size(population,1)
+    number_of_parameters = size(population,2)
+
+    for individue in 1:population_size
+        Cr = rand_normal_trunc(μ_Cr,0.1)
+        for parameter in 1:number_of_parameters
+            if (rand() <= Cr) | (rand(1:number_of_parameters) == parameter)
+                @inbounds crossed[individue,parameter] = mutated[individue,parameter]
+            else
+                @inbounds crossed[individue,parameter] = population[individue,parameter]
+            end
+        end
+    end
+
+    return crossed
+
+end
+
