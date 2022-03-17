@@ -35,7 +35,7 @@ function rand_exclusive(v::AbstractArray,n::Integer)
     a = Array{Number}(undef,n)
     a[1] = rand(v)
     
-    @simd for i in 2:n
+    for i in 2:n
         tmp = rand(v)
         while tmp in a[1:i-1]
             tmp = rand(v)
@@ -52,7 +52,7 @@ end
 
 """
     rand_cauchy_trunc(μ::Real, c::Real)
-Returns a random number with a Cauchy's distribution with **mean `μ`** and truncated between (0,1]. If the value calculated exceds 1, the returned value is 1.
+Returns a random number with a *Cauchy's distribution* with **mean `μ`** and truncated between (0,1]. If the value calculated exceds 1, the returned value is 1.
 If the value is less or equal to zero, the value es calculated again.
 """
 function rand_cauchy_trunc(μ::Real, c::Real)
@@ -66,10 +66,39 @@ function rand_cauchy_trunc(μ::Real, c::Real)
 end
 
 """
+    rand_normal_trunc(μ::Real, σ::Real)
+Returns a random number with a *normal* distribution with **mean `μ`** and **standard deviation `σ`** truncated between [0,1].
+"""
+function rand_normal_trunc(μ::Real, σ::Real)
+    r = σ*randn() + μ
+    if r > 1
+        return 1
+    elseif r < 0
+        return 0
+    end
+    return r
+end
+
+"""
     Lehmer_mean(X::AbstractArray,p::Real)
 Return the **Lehmer mean** of degree `p` of an array `X`.
 """
-function Lehmer_mean(X::AbstractArray,p::Real)
+function Lehmer_mean(X::AbstractArray, p::Real)
     return sum(X.^p)/sum(X.^(p-1))
 end
+
+
+"""
+    pbest(fob::Function, A::AbstractMatrix, p::Real)
+Return the top 100*p% best individues of a population evaluated in a function `fob`.
+"""
+function pbest(fob::Function, A::AbstractMatrix, p::Real)
+    len = size(A,1)
+    plen = floor(Integer,p*len)
+    ppop = sortperm(@inbounds [fob(A[i,:]...) for i in 1:len])[1:plen]
+    return A[ppop,:]
+end
+
+
+
 
