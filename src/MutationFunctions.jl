@@ -133,32 +133,14 @@ end
 
 """
     mutation_JADE_no_archive(A::AbstractMatrix, lower_limits::AbstractArray, upper_limits::AbstractArray, F::Real)
-    Named DE/current-to-pbest/1
+Named DE/current-to-pbest/1
     
 """
-function mutation_JADE_no_archive(A::AbstractMatrix, fob::Function, p::Real, μ_F=0.5)
-
-    mutated = similar(A)
-
-    #Size of population
-    population_size = size(A,1)
-    number_of_parameters = size(A,2)
-
-    #Generating a vector with the top p*100% best individues in the population
-    p_best = pbest(fob, A, p)
-
-    for individue in 1:population_size
-        # 2 random individues different each other and individue
-        rnd_individues = rand_exclusive(deleteat!(collect(1:population_size),individue),2)
-        # A random individue in the top p*100%
-        rnd_best = rand(1:size(p_best,1))
-
-        F = rand_cauchy_trunc(μ_F,0.1)
-        for parameter in 1:number_of_parameters
-            @inbounds mutated[individue,parameter] = A[individue,parameter] + F*(p_best[rnd_best,parameter] - A[individue,parameter]) 
-            + F*(A[rnd_individues[1],parameter] - A[rnd_individues[2],parameter])
-        end
+function mutation_current2pbest(xi::AbstractArray, x_best::AbstractArray, x_r1::AbstractArray, x_r2::AbstractArray, F::Real)
+    v = similar(xi)
+    @inbounds for parameter in 1:length(xi)
+        v[parameter] = xi[parameter] + F*(x_best[parameter] - xi[parameter]) + F*(x_r1[parameter] - x_r2[parameter])
     end
 
-    return mutated
+    return v
 end
