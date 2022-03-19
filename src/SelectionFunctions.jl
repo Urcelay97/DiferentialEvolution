@@ -11,7 +11,7 @@ function selection_classic(fob::Function, trial::AbstractMatrix, population::Abs
     population_size = size(population,1)
     selected = similar(population)
 
-    @simd for individue in 1:population_size
+    for individue in 1:population_size
         @inbounds if fob(trial[individue,:]...) < fob(population[individue,:]...)
             @inbounds selected[individue,:] = trial[individue,:]
         else
@@ -20,7 +20,10 @@ function selection_classic(fob::Function, trial::AbstractMatrix, population::Abs
     end
 
     return selected
-end        
+end
+
+
+
 
 
 
