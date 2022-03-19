@@ -3,7 +3,7 @@
 Multiply all the rows of a matrix `A` by some vector `v` element by element.
 
 """
-function row_mul(v::AbstractArray, A::AbstractMatrix)
+function row_mul(v::AbstractVector, A::AbstractMatrix)
 
     #Error
     if length(v) != size(A,2)
@@ -25,7 +25,7 @@ end
     rand_exclusive(v::AbstractArray,n::Integer)
 Returns an array with `n` different random elements of the array `v`.
 """
-function rand_exclusive(v::AbstractArray,n::Integer)
+function rand_exclusive(v::AbstractVector,n::Integer)
     
     #Error checks
     if n>length(v)
@@ -83,7 +83,7 @@ end
     Lehmer_mean(X::AbstractArray,p::Real)
 Return the **Lehmer mean** of degree `p` of an array `X`.
 """
-function Lehmer_mean(X::AbstractArray, p::Real)
+function Lehmer_mean(X::AbstractVector, p::Real)
     return sum(X.^p)/sum(X.^(p-1))
 end
 
@@ -98,7 +98,3 @@ function pbest(fob::Function, A::AbstractMatrix, p::Real)
     ppop = sortperm(@inbounds [fob(A[i,:]...) for i in 1:len])[1:plen]
     return A[ppop,:]
 end
-
-
-
-
